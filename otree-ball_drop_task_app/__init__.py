@@ -1,11 +1,11 @@
 from otree.api import *
-from common_functions import * # randomize_order
+# from common_functions import * # 
 
 doc = """
+    Developed by Faith Bague-Sampson, University of California, Irvine, 2022-2024.
     Bucket 01 is the TARGET bucket.
-    Developed by Faith Bague-Sampson 2022-2024.
-    
-    
+    Randomizes treatment between the dictator and rule-following tasks and the side on which the target bucket appears.
+    This version employs a hard-timer, but it's optional. Just adjust the code.
 """
 
 
@@ -61,9 +61,68 @@ class Player(BasePlayer):
 
 
 
-# =========== FUNCTIONS =========== #
+# =========== FUNCTIONS =========== 
 
-# ==== Tags players with their assigned treatment conditions from subsession 1 ==== #
+# ~~~ Originally imported from "common_functions app" ~~~ 
+# randomize_order, set_expiration_time, get_time_from_start, addZero, make_it_base_sixty
+
+def randomize_order(data, extras): # ~~~ randomizes order in which treatment tuples are assigned
+    import random
+    import copy
+   # Adds extra treatment combinations in case things start to get unbalanced.
+    if extras != None:
+        for extra in extras: # assumes list of lists, e.g., [[True, C.FIRST_TREATMENT, False], [False, C.SECOND_TREATMENT, False]]
+            data.append(extra)
+    combos_to_reorder = copy.deepcopy(data)
+    A = [a for a in combos_to_reorder]
+    random.shuffle(A)
+    return A
+
+def set_expiration_time(minutes_for_task): # sets the time at which X expires; expiry = set_expiration_time()
+    import time
+    expiry = time.time() + minutes_for_task*60
+    return expiry
+
+def get_time_from_start(minutes_for_task, expiry): # time elapsed since the start of the timer. # print(make_it_base_sixty(get_time_from_start(MINUTES_FOR_TASK, expiry),k))
+    import time
+    return minutes_for_task*60 - (expiry - time.time())
+
+def addZero(obj): # based on js_scipt function of this name
+    if (obj < 10):
+        obj = str(obj)
+        obj = "0" + obj
+    return str(obj)
+
+def make_it_base_sixty(time_remaining, place): # place is 1:6 where 6 is double-digit hours, and 1 is single-digit seconds. precision of the time. i.e., 65:43:21. print(make_it_base_sixty(time_remaining, k))
+    import math
+    hLeft = math.floor(time_remaining/3600)
+    mLeft = math.floor((time_remaining - hLeft*3600)/60)
+    sLeft = math.trunc(time_remaining - math.floor(time_remaining/60)*60)
+    x = 3 - math.ceil(place/2)
+    if place == 6:
+        h = addZero(hLeft)
+    else:
+        h = str(hLeft)
+    if place == 4:
+        m = addZero(mLeft)
+    else:
+        m = str(mLeft)
+    if place == 2:
+        s = "0:" + addZero(sLeft)
+    else:
+        s = str(sLeft)
+    possible_displays = [h + ":" + addZero(mLeft) + ":" + addZero(sLeft),
+                         m + ":" + addZero(sLeft),
+                         s]
+    if time_remaining < 0:
+        display_time =  'time\'s up'
+    else:
+        display_time = possible_displays[x]
+    return display_time
+
+
+
+# ==== Tags players with their assigned treatment conditions from subsession 1 ==== 
 def import_treatments(subsession: Subsession):
     for p in subsession.get_players():
         participant = p.participant
@@ -159,7 +218,7 @@ def set_bucket_selection(player: Player):
         player.bucket_02_clicks = 1 # += 1
 
 
-# =========== PAGES =========== #
+# =========== PAGES =========== 
 
 # ~~~ instructions for the ball task
 class Instructions(Page): 
