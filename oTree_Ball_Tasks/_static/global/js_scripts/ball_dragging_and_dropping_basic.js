@@ -10,11 +10,11 @@
 /* functions for ball events */
     function dragStart(e) {
         e.dataTransfer.setData('text/plain', e.target.id); // grabs the id of the ball, "draggable_ball"
-        event.target.classList.add('while-dragging'); // adds the class "while-dragging" to the element on the event
+        e.target.classList.add('while-dragging'); // adds the class "while-dragging" to the element on the event
     }
 
     function dragStop(e) {
-        event.target.classList.remove('while-dragging'); // removes the class "while-dragging" to the element on the event
+        e.target.classList.remove('while-dragging'); // removes the class "while-dragging" to the element on the event
     }
 
 /* drop targets: buckets */
@@ -50,7 +50,7 @@
 
 /* functions for drop event -- happens on the buckets */
     function dropOn(e) {
-        event.preventDefault();
+        e.preventDefault();
         e.target.classList.remove('drag-over'); // removes the class "drag-over" to the element on the event
 
     // capture choice of bucket and send to server (alllows choice of bucket to be robust to placing ball on the binned balls)
