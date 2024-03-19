@@ -21,7 +21,7 @@ SESSION_CONFIG_DEFAULTS = dict(
 PARTICIPANT_FIELDS = ['expiry', 'paid_rounds_object', 'treatments']
 SESSION_FIELDS = []
 
-DEBUG = 1
+DEBUG = 0
 
 # ISO-639 code
 # for example: de, fr, ja, ko, zh-hans
