@@ -28,7 +28,7 @@ Ball Task Features:
 NOTE:
 Ball Task Apps are dependent on the following items not contained within the individual app folders:
 * global css
-* gloabl javascript files
+* global javascript files
 * functions imported from the shared_functions app
 * PARTICIPANT_FIELDS and SESSION_CONFIGS settings in the settings.py file
 
