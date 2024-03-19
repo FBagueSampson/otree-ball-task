@@ -105,4 +105,6 @@
         }
     }
 
+/* bucket-shaking functions could be added. See the following urls and other resources. 
+     https://jsfiddle.net/12aueufy/1/ ; https://stackoverflow.com/questions/36962903/javascript-shake-html-element */
 
