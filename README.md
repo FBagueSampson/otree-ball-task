@@ -1,7 +1,7 @@
 # otree-ball-task
 An oTree project with two click-and-drag, ball-drop apps, a live-pages version and a basic version.
 
-The apps are designed to be used as an interface for a dictator game only, a rule-following task only, or a mix of both tasks randomly assigned at the start of the session.
+The apps are designed to be used as an interface for dictator games, rule-following tasks, or a mix of both tasks randomly assigned at the start of the session.
 
 In each treatment, participants are provided with a number of balls that they can drag into one of two buckets using their mouse, the target bucket or the alternative bucket. 
 
