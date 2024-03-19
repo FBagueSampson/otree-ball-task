@@ -1,9 +1,32 @@
 # otree-ball-task
-A flexible ball drop task app in oTree that can be used in dictator games or as a rule-following task.
+An oTree project with two click-and-drag, ball-drop apps, a live-pages version and a basic version.
 
-The example has 4 treatments, so recommend num_demo_participants=4 so you can see the difference.
+The apps are designed to be used as an interface for a dictator game only, a rule-following task only, or a mix of both tasks randomly assigned at the start of the session.
 
-(Optionally) add the following three fields to the participant field list in your settings.py file. If not, you'll need to adjust the code some.
-PARTICIPANT_FIELDS = ['expiry', 'paid_rounds_object', 'treatments']
+In each treatment, participants are provided with a number of balls that they can drag into one of two buckets using their mouse, the target bucket or the alternative bucket. 
+
+App Features:
+* One adjustment to the session-config settings sets the mode: dictator, rule-following, balanced-random-assignment of the two tasks
+* Includes optional hard-timer (records if a timeout happened)
+* The bucket colors and ball sizes are easily adjustable (no find and replace, just adjust the desired variable in one location)
+* Automatically captures other participants assigned to the same task
+* Automatically records a time stamp of when a ball is placed into a bucket
+* Automatic balanced-random-assignment of the order in which the target and alternative buckets appear
+
+In the rule-following task, participants are told that the rule is to place the ball into the target bucket. Typical of such tasks, balls placed into the target bucket earn less than balls placed in the alternative bucket.
+
+In the dictator task, participants are told to allocate the balls between the buckets where the amount earned by balls into the "target" bucket is donated to a charity (or customize to tbe another participant or bot) and the amount earned by placing balls into the alternative bucket accrue as a payoff to the participant.
+
+Ball Task Features:
+* Buckets highlight when balls are dragged over them
+* To place a ball, participants drag the ball over the bucket then release their mouse
+* Only balls placed within buckets are counted
+* There is a brief animation of the ball falling into the bucket when participants release the ball
+* Placed balls accumulate in the buckets with each ball placed
+
+
+
+
+
 
 
