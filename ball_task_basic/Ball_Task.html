@@ -1,0 +1,84 @@
+{{ block styles }}
+    <link rel="stylesheet" href="{{ static 'global/style_sheets/global_styles.css' }}">
+    {{ include C.STYLES_LOCAL }}
+    <style>
+        .otree-title {
+            display: none;
+        }
+    </style>
+ 
+{{ endblock }}
+
+
+{{ block content }}
+
+<!-- // begin row 1 // -->
+<div class="row" style="margin-bottom: 5%;"><div class="col-md-12 col-lg-12">
+
+ <!-- // Header text Div // -->
+    <div style="clear:both; margin-top:3%;">
+        {{ if player_task == 0 }}
+            <div style="height:2rem; margin-top:2%;"><p class="fake_header center_text">Please allocate the balls between the two buckets</p></div>
+        {{ else }}
+        <div style="height:4rem; margin-top:2%; margin-bottom:5%"><p class="fake_header center_text">Please allocate the balls between the two buckets <br />
+            The rule is to put the ball into the <span class="styleText_Bucket_01">blue</span> bucket</p></div>
+        {{ endif }}
+    </div>
+    
+ <!-- // ****** Div for the Buckets ****** // -->
+    <div style="clear:both; margin-right: 5%; margin-left: 5%; margin-top: 6%;">
+        <div class="BinforBuckets" {{ bucket_01_float }} >
+            <h4 class="{{ C.STYLE_BUCKET_01 }}">{{ bucket_01_title }}<br />$ {{ bucket_01_payoff|to2 }}</h4>
+
+            <div id="Bucket01" class="ColorBucket droppable"></div>
+        </div>
+
+        <div class="BinforBuckets" {{ bucket_02_float }}>
+            <h4 class="{{ C.STYLE_BUCKET_02 }}">{{ bucket_02_title }}<br />$ {{ bucket_02_payoff|to2 }}</h4>
+
+            <div id="Bucket02" class="ColorBucket droppable"></div>
+        </div>
+    </div>
+
+</div></div> <!-- end div class column-12 in row 1-->
+
+
+<!-- // begin row 2 //-->
+<div class="row">
+
+    <!-- // Contents determined in py file. Includes the div that holds the balls for dragging. // -->
+    {{ include_sibling row_two_contents }}
+
+</div> <!-- end row 2 -->
+
+
+<!-- // begin row 3 // -->
+<div class="row">
+    <input type="hidden" name="bucket" id="bucket" />
+    {{ formfield_errors 'bucket' }}
+</div> <!-- end row 3-->
+
+{{ endblock }}
+
+
+{{ block scripts }}
+
+<script
+src="{{ static 'global/js_scripts/ball_dragging_and_dropping_basic.js' }}"> 
+</script>
+
+<script
+src="{{ static 'global/js_scripts/filling_two_buckets.js' }}"> 
+</script>
+
+
+{{ if C.TASK_IS_TIMED == 1 }} 
+    <script
+    src="{{ static 'global/js_scripts/hard_timer_customized_01.js' }}"> 
+    </script>
+{{ endif }}
+
+{{ endblock }}
+
+
+

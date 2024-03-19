@@ -1,0 +1,45 @@
+
+    <!-- // time and balls remaining table // -->
+       <div class="col-md-3"> 
+           <div style="margin-top: 15%;">
+               <table class="borderNONE timerTable" width="200px" style=" margin: auto;"> 
+                   <tr>
+                       <td class="borderNONE" width="150px">Time remaining:</td>
+                       <td class="borderNONE" width="50px"><span id="CountdownClock"></span></td>
+                   </tr>
+                   <tr>
+                       <td class="borderNONE" width="150px">Balls remaining:</td>
+                       <td class="borderNONE" width="50px">{{ balls_remaining }} </td>
+                   </tr>
+               </table>
+               <span class="display_none" id="timer"></span> <!-- <span id="timer"> is NECESSARY for "ticking" to function -->
+           </div>
+       </div>
+       
+   <!-- //****** Ball to Drag Div ******// -->
+       <div class="col-md-6 my-auto">
+           <div style="margin-top: 8%;">
+               <div class="center_element" id="ballbag">
+                   <div class="center_element ball" id="draggable_ball" draggable="true"></div>
+               </div>
+   
+               <div class="center_element"> 
+                   <p class="center_text" style="margin-top: 2.5%;">Click and drag the ball to put it into a bucket.</p>
+               </div>
+           </div>
+       </div>
+   
+    <!-- // mini history table // -->
+       <div class="col-md-3 align-self-center"> 
+           <table class="table borderNONE text-center miniHistory" style="width: auto; margin: auto;">
+               <tr><th class="miniHistory">Bucket</th><th class="miniHistory">Earnings</th></tr>
+               <tr><td class="borderNONE">{{ bucket_01_historyName }} bucket</td><td class="borderNONE">$ {{ bucket_01_payoff|to2 }}</td></tr>
+           {{ if player_task == 1 }} 
+                   <tr class="bottomBorder"><td>{{ bucket_02_historyName }} bucket</td><td>$ {{ bucket_02_payoff|to2 }}</td></tr>
+                   <tr><td class="borderNONE">Total</td><td class="borderNONE">$ {{ player_earnings|to2 }}</td></tr>
+           {{ else }}
+                   <tr><td class="borderNONE">{{ bucket_02_historyName }} bucket</td><td class="borderNONE">$ {{ bucket_02_payoff|to2 }}</td></tr>
+           {{ endif }}
+           </table>
+       </div>
+   

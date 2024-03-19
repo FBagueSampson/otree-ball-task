@@ -1,0 +1,88 @@
+
+/* ================================= */
+/* ===== overrides for default oTree styles ===== */
+/* ================================= */
+    /* Resets default values used by oTree; uses their class names */
+
+/* ~~ reset oTree element styles ~~ */
+
+p {
+    margin-bottom: 1.5rem ;
+}
+
+li {
+    margin-bottom: 0.8rem ;
+}
+
+/* ~~ reset oTree default classes ~~ */
+
+.otree-body {
+	max-width: 1366px; /* 1366x768, 1280x720, 1280x800 */
+}
+
+._otree-content {
+    font-size: 14pt;
+}
+
+.col-form-label {
+    font-size: 14pt;
+    font-weight: 500;
+}
+
+
+
+/* ================================= */
+/* ===== General Styles ===== */
+/* ================================= */
+    /* New, user-created styles used by multiple apps; not app-specific */
+
+/* ~~ All-object classes ~~ */
+
+.display_none {
+    display: none;
+}
+
+.border_none {
+    border: none; /* useful for tables */
+}
+
+.center_element {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.width_min_is_max {
+    min-width: max-content;
+}
+
+/* ~~ Classes that mimic oTree styles ~~ */
+
+.fake_header {
+    font-size: 2rem;
+}
+
+/* ~~ Text-element classes ~~ */
+
+.center_text {
+    text-align: center ;
+}
+
+/* ~~ Text-style classes ~~ */
+
+.boldtype {
+    font-weight: bold ;
+}
+
+.italictype {
+    font-style: italic ;
+}
+
+.underlinetype {
+    text-decoration: underline ;
+}
+
+
+/* ~~ Table classes ~~ */
+
+

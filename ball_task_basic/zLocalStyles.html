@@ -1,0 +1,151 @@
+
+<style>
+
+    /* ================ Root Adjustments: adjust one and done ================= */
+        /* Here is where you adjust the colors associated with the two buckets and that of both free and binned balls, along with their sizes; 
+            all changes made here populate the appropriate styles below. */
+        /* use rgb triples in order to apply opacity settings in one go (or if it's a rather specific color). the hex values will not work for this. */
+      :root { 
+        --bucket01-rbg: 15, 10, 222 ; /* rgb triple for the color associated with target bucket: rgba(15, 10, 222, 1); */
+        --bucket02-rbg: 243, 156, 18 ; /* rgb triple for the color associated with other bucket: rgba(243, 156, 18, 1); */
+        --ball-size-free: 30px; /* size of draggable, non-binned balls */
+        --ball-size-binned: 25px; /* size of binned balls */
+        --ball-color-free: #000000; /* color of draggable, non-binned balls */
+        --ball-color-binned: #000000; /* color of binned balls */
+      }
+
+      /* how to use variables in CSS:
+        when color input is rgb code ==> background-color: rgba(var(--base-lighter-rbg), 0.25); where the 0.25 is the opacity. for full opacity, set the value to 1
+        when color input is hexcode ==> background-color: var(--base-darker); here opacity is assumed to be 1 or is set some other way
+        general variable ==> width: var(--month-size);
+        how to use in a calculation ==> width: calc(var(--month-size) + 5px); make sure the units match!
+     */
+
+
+    /* === General page elements: visibility, spacing, and alignment === */    
+        .otree-timer {
+            display: none;
+        }
+        .center_text { /* Stupidly has to be included locally; other styles still port from global perfectly. Odd. */  
+            text-align: center ;
+        }
+    /* === Text styles === */
+        p {
+            font-size: 14pt ;
+            margin-bottom: 1.5rem ;
+        }
+        /* p.fake_header {
+            font-size: 2rem;
+        } */
+        .styleText_Bucket_01 {
+            font-weight: bold;
+            color: rgba(var(--bucket01-rbg), 1); /* rgba(15, 10, 222, 1); */
+        }
+        .styleText_Bucket_02 {
+            font-weight: bold;
+            color: rgba(var(--bucket02-rbg), 1); /* rgba(243, 156, 18, 1); */
+        }
+
+    /* === Bucket Styles === */
+        .BinforBuckets {
+            text-align: center;
+            margin-right: auto; 
+            margin-left: auto;
+        }
+        .ColorBucket {
+            border-width: 8px;
+            border-style: none solid solid solid;
+            width: 325px;
+            height: 275px;
+            display: flex;
+            position: relative;
+            justify-content: center;
+            flex-wrap: wrap-reverse; /*  */
+            row-gap: 1.5px;
+            align-content: flex-start;
+        }
+        #Bucket01 {
+            border-color: rgba(var(--bucket01-rbg), 1); /* rgba(15, 10, 222, 1); */
+        }
+        #Bucket01.drag-over  {
+            background-color: rgba(var(--bucket01-rbg), 0.4); /* rgba(135, 211, 124, 0.4); */
+        }
+        #Bucket02 {
+            border-color: rgba(var(--bucket02-rbg), 1); /* rgba(243, 156, 18, 1); */
+        }
+        #Bucket02.drag-over {
+            background-color: rgba(var(--bucket02-rbg), 0.4); /* rgba(135, 211, 124, 0.4); */
+        }
+
+    /* === Ball Styles === */ 
+        #ballbag {
+            border-radius: 50%;
+            color: var(--ball-color-free);
+            background-color: var(--ball-color-free);
+            height: var(--ball-size-free);
+            width: var(--ball-size-free);
+            cursor: pointer;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .ball {
+            border-radius: 50%;
+            color: var(--ball-color-free);
+            background-color: var(--ball-color-free);
+            height: var(--ball-size-free);
+            width: var(--ball-size-free);
+            cursor: pointer;
+        }
+        .draggable_ball {
+            border-radius: 50%;
+            color: var(--ball-color-free);
+            background-color: var(--ball-color-free);
+            height: var(--ball-size-free);
+            width: var(--ball-size-free);
+        }
+        .while-dragging {
+            opacity: 0.5; 
+        }
+        .binnedBall {
+            border-radius: 50%;
+            color: var(--ball-color-binned);
+            background-color: var(--ball-color-binned);
+            height: var(--ball-size-binned);
+            width: var(--ball-size-binned);
+            padding: 0px;
+            margin: 0px;
+        }
+
+    /* === Table styles === */
+        table.borderNONE {
+            border: none;
+        }
+        td.borderNONE {
+            border: none;
+        }
+        th.bottomBorder {
+            border-bottom: 0.5pt solid black ;
+        }
+        th.midrule {
+            border-bottom: 1.5pt solid black ;
+            font-size: 14.5pt ;
+            font-weight: bold ;
+        }
+        table.timerTable { /* this is for the timer and balls remaining */
+            font-size: 12pt ;
+        }
+        table.miniHistory {
+            font-size: 12pt ;
+        }
+        th.miniHistory {
+            border-bottom: 1pt solid black ;
+            font-weight: bold ;
+        }
+        table.history {
+            font-size: 14pt ;
+        }
+    </style>
+        
+        
+        
+        
