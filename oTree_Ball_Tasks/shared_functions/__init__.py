@@ -96,23 +96,17 @@ def record_json_obj(the_dict):
     return jsonObj
 
 # retrieve a json object so that python can read it (ideally retrieves the dictionary you saved using record_json_obj, but also good with javascript dictionaries)
-def recall_json_obj(the_obj):
+    # can turn lists of numbers that were saved as a string into a list of integers
+def recall_json_obj(the_obj, sorted):
     import json
     pythonObj = json.loads(the_obj)
-    return pythonObj
-
-# turns lists of numbers that were saved as a string into a list of integers
-def convert_list_of_num_as_string_to_integers(string_num_list, sorted): 
-    import json
-    int_list = json.loads(string_num_list)
     if sorted == True:
-        int_list.sort()
-    return int_list
+        pythonObj.sort()
+    return pythonObj
 # e.g., 
-    # string_num_list =  '[5, 4, 3]'
-    # convert_list_of_num_as_string_to_integers(string_num_list, True)
+    # if the_obj = string_num_list =  '[5, 4, 3]'
+    # recall_json_obj(string_num_list, True)
     # [3, 4, 5]
-
 
 
 # ============ Randomization and Reordering ============ #
