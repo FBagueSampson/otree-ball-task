@@ -23,30 +23,31 @@ doc = """
 class C(BaseConstants):
 # ~~~ Primary settings
     NAME_IN_URL = 'ball_drop_task'
-    PLAYERS_PER_GROUP = None # there are no groups in this version. adjust if the dictator task uses other players
-    NUM_BALLS = 25 # the total number of balls to allocate between the buckets
-    NUM_ROUNDS = NUM_BALLS # the number of rounds is equal to the number of balls to be allocated
-    TASK_IS_TIMED = True # will the task employ a hard-timer?
+    PLAYERS_PER_GROUP = None # default: app does not use groups. adjust if the dictator task uses other players
+    NUM_BALLS = 10 # the total number of balls to allocate between the buckets
+    NUM_ROUNDS = NUM_BALLS # default: number of balls determines number of rounds
+    TASK_IS_TIMED = True # if use a hard-timer = True; if no timer = False
 # ~~~ Secondary (time) settings
-    TIME_FOR_TASK = 2 # hard timer
-    TIMED_IN_MINUTES = True # is TIME_FOR_TASK is given in minutes ==> True; if given in seconds ==> False
-    DISPLAY_TIME_CUTOFF = 1.5 # in seconds
-    STAMP_DIGITS = 3
+    # default: these constants required even if TASK_IS_TIMED = False
+    TIME_FOR_TASK = 1 # length of time to complete ball task (hard timer)
+    TIMED_IN_MINUTES = True # units for TIME_FOR_TASK: minutes = True; seconds = False
+    DISPLAY_TIME_CUTOFF = 1.5 # measured in seconds
+    STAMP_DIGITS = 3 # see the function "make_it_base_sixty(..., STAMP_DIGITS)" for usage
  # ~~~ Payoffs
     PAYOFF_BUCKET_01 = 3 # payoff for each ball in cents (RF) # *** Bucket 01 is the TARGET bucket ***
     PAYOFF_BUCKET_02 = 6 # payoff for each ball in cents (RF)
     PAYOFF_DICTATOR = 9 # payoff for each ball in cents (D)
  # ~~~ Ball bucket in-text references
-    COLOR_BUCKET_01 = 'blue' # in-text references to the color # *** Bucket 01 is the TARGET bucket ***
-    COLOR_TITLE_01 = 'Blue' # the official label
-    COLOR_BUCKET_02 = 'orange' # in-text references to the color
+    COLOR_BUCKET_01 = 'blue' # in-text references to Bucket_01's color # *** Bucket 01 is the TARGET bucket ***
+    COLOR_TITLE_01 = 'Blue' # the official label  # *** Bucket 01 is the TARGET bucket ***
+    COLOR_BUCKET_02 = 'orange' # in-text references to Bucket_02's color
     COLOR_TITLE_02 = 'Orange' # the official label
-    CHARITY_TITLE = 'The Charity' # placeholder name for the charity so the app works without a player first choosing a charity
+    CHARITY_TITLE = 'The Charity' # placeholder for the participants' charity selection; adjust according to your selection process # *** TARGET bucket in dictator games***
 # ~~~ General styles and display
-    STYLES_LOCAL = __name__ + '/zLocalStyles.html' # stylesheet that controls layout and styles of page content
-    DISPLAYED_SECTION_TITLE = "Part I" 
-    STYLE_BUCKET_01 = 'styleText_Bucket_01' # css class name assigned to references of the TARGET bucket # *** Bucket 01 is the TARGET bucket ***
-    STYLE_BUCKET_02 = 'styleText_Bucket_02' # css class name assigned to references of the non-target bucket
+    STYLES_LOCAL = __name__ + '/zLocalStyles.html' # local stylesheet -- most styles are required
+    DISPLAYED_SECTION_TITLE = "Part I" # optional
+    STYLE_BUCKET_01 = 'styleText_Bucket_01' # css class for text refs to bucket_01 # *** Bucket 01 is the TARGET bucket ***
+    STYLE_BUCKET_02 = 'styleText_Bucket_02' # css class for text refs to bucket_02, the non-target bucket
     
 
 class Subsession(BaseSubsession):
@@ -123,6 +124,15 @@ def creating_session(subsession: Subsession):
     else: # in every subsession, rewrite participant characteristics so that they're constant across rounds
         import_treatments(subsession)
 
+# ~~~ Returns the name of the charity conditional on treatment condition  ##########***************************************
+def set_charity_name(player: Player):
+    if player.participant.treatments["task"] == False:
+        charity_name = C.CHARITY_TITLE
+    else:
+        charity_name = 'NA'
+    return charity_name
+
+
 # ~~~ Computes the number of balls that have been allocated to each bucket
 def n_balls_in_bucket_01(player: Player):
     return sum(p.bucket_01_clicks for p in player.in_all_rounds())
@@ -152,19 +162,15 @@ def set_donation(player: Player):
 
 # ~~~ Record total player donations to charity
 def set_total_donation(player: Player):
-    if player.participant.treatments["task"] == False: # player.task == False:
-        other_allocations = n_balls_in_bucket_01(player)
-        total_donation = cu(other_allocations*C.PAYOFF_DICTATOR/100)
-    else:
-        total_donation = cu(0)
-    return total_donation
+    return sum(p.donation for p in player.in_all_rounds())
+
 
 # ~~~ Record app results for posterity
 def package_payoff_object(player: Player):
     player.participant.paid_rounds_object = {'payoff_ball_task': sum(p.payoff for p in player.in_all_rounds()),
                                              'bucket_01_allocations': n_balls_in_bucket_01(player),
                                              'bucket_02_allocations': n_balls_in_bucket_02(player),
-                                             'charity': C.CHARITY_TITLE, 
+                                             'charity': set_charity_name(player), 
                                              'donation': set_total_donation(player),}
 
 # ~~~ Get hard-time remaining in ball-task
@@ -185,6 +191,46 @@ def set_bucket_selection(player: Player, timeout_happened):
         else:
             player.bucket_01_clicks = 0 ## adjustments for server issues
             player.bucket_02_clicks = 1 # += 1
+
+
+def get_page_vars(player: Player):  ##########***************************************
+    if player.participant.treatments["task"] == False:
+        target_title = set_charity_name(player)
+        non_target_possessive = 'Your'
+        return dict(
+            target_title = target_title,
+            target_possessive = target_title + '\'s',
+            target_history_title = target_title.strip('The ') + '\'s',
+            non_target_title = 'You',
+            non_target_possessive = 'Your',
+            non_target_history_title = non_target_possessive,
+        )
+    else:
+        target_title = C.COLOR_TITLE_01
+        non_target_title = C.COLOR_TITLE_02
+        return dict(
+            target_title = target_title,
+            target_possessive = target_title,
+            target_history_title = target_title,
+            non_target_title = non_target_title,
+            non_target_possessive = non_target_title,
+            non_target_history_title = non_target_title,
+        )
+
+
+
+# ~~~ Computes the total payoffs attributable to each bucket
+def sum_bucket_01_payoff(player: Player):  ##########***************************************
+    if player.participant.treatments["task"] == False:
+        return 0 
+    else:
+        return n_balls_in_bucket_01(player)*C.PAYOFF_BUCKET_01/100 
+
+def sum_bucket_02_payoff(player: Player):  ##########***************************************
+    if player.participant.treatments["task"] == False:
+        return n_balls_in_bucket_02(player)*C.PAYOFF_DICTATOR/100 
+    else:
+        return n_balls_in_bucket_02(player)*C.PAYOFF_BUCKET_02/100 
 
 
 # =========== PAGES =========== #
@@ -261,25 +307,14 @@ class Ball_Task(Page):
     def vars_for_template(player: Player):
         bucket_01_allocations = n_balls_in_bucket_01(player)
         bucket_02_allocations = n_balls_in_bucket_02(player)
+        bucket_01_payoff = sum_bucket_01_payoff(player)
+        bucket_02_payoff = sum_bucket_02_payoff(player)
+    # Dictates the information visible to the player on the buckets
+        page_vars = get_page_vars(player)
         if C.TASK_IS_TIMED == True:
             row_two_contents = 'ball_bag_with_tables.html'
         else:
             row_two_contents = 'ball_bag_simple.html'
-    # Dictates the information visible to the player on the buckets
-        if player.participant.treatments["task"] == False: # player.task == False:
-            bucket_01_title = C.CHARITY_TITLE
-            bucket_02_title = 'You'
-            bucket_01_payoff = bucket_01_allocations*C.PAYOFF_DICTATOR/100 
-            bucket_02_payoff = bucket_02_allocations*C.PAYOFF_DICTATOR/100
-            bucket_01_historyName = 'Charity\'s'
-            bucket_02_historyName = 'Your'
-        else:
-            bucket_01_title = C.COLOR_TITLE_01
-            bucket_02_title = C.COLOR_TITLE_02
-            bucket_01_payoff = bucket_01_allocations*C.PAYOFF_BUCKET_01/100
-            bucket_02_payoff = bucket_02_allocations*C.PAYOFF_BUCKET_02/100
-            bucket_01_historyName = bucket_01_title
-            bucket_02_historyName = bucket_02_title
     # Determines if Bucket_01 appears on the right or on the left
         if player.participant.treatments["bucket_01_on_left"] == True: # player.bucket_01_on_left == True: 
             bucket_01_float = 'style="float:left;"' 
@@ -297,14 +332,15 @@ class Ball_Task(Page):
             total_balls = bucket_01_allocations + bucket_02_allocations, 
             bucket_01_allocations = bucket_01_allocations,
             bucket_02_allocations = bucket_02_allocations,
-            bucket_01_title = bucket_01_title,
-            bucket_02_title = bucket_02_title,
-            bucket_01_historyName = bucket_01_historyName,
-            bucket_02_historyName = bucket_02_historyName,
+            bucket_01_title = page_vars["target_title"],
+            bucket_02_title = page_vars["non_target_title"],
+            bucket_01_historyName = page_vars["target_history_title"],
+            bucket_02_historyName = page_vars["non_target_history_title"],
             bucket_01_float = bucket_01_float,
             bucket_02_float = bucket_02_float,
             row_two_contents = row_two_contents,
         )
+
 
 # ~~~ payoff summary: provides task-specific payoffs 
 class Results(Page):
@@ -316,28 +352,22 @@ class Results(Page):
         package_payoff_object(player)
 
     def vars_for_template(player: Player):
+        page_vars = get_page_vars(player)
         bucket_01_allocations = n_balls_in_bucket_01(player)
         bucket_02_allocations = n_balls_in_bucket_02(player)
-        
+        bucket_01_payoff = sum_bucket_01_payoff(player)
+        bucket_02_payoff = sum_bucket_02_payoff(player)
         if player.task == False:
             player_task = 'Dictator'
-            bucket_01_title = 'The Charity\'s'
-            bucket_02_title = 'Your'
-            bucket_01_payoff = bucket_01_allocations*C.PAYOFF_DICTATOR/100
-            bucket_02_payoff = bucket_02_allocations*C.PAYOFF_DICTATOR/100
         else:
             player_task = 'Rule-Following'
-            bucket_01_title = C.COLOR_TITLE_01
-            bucket_02_title = C.COLOR_TITLE_02
-            bucket_01_payoff = bucket_01_allocations*C.PAYOFF_BUCKET_01/100
-            bucket_02_payoff = bucket_02_allocations*C.PAYOFF_BUCKET_02/100
         return dict(
             player_task = player_task,
             player_earnings = player.participant.payoff, 
             bucket_01_payoff = cu(bucket_01_payoff),
             bucket_02_payoff = cu(bucket_02_payoff),
-            bucket_01_title = bucket_01_title,
-            bucket_02_title = bucket_02_title,
+            bucket_01_title = page_vars["target_title"],
+            bucket_02_title = page_vars["non_target_title"],
             bucket_01_allocations = bucket_01_allocations,
             bucket_02_allocations = bucket_02_allocations,
             total_balls = bucket_01_allocations + bucket_02_allocations,
