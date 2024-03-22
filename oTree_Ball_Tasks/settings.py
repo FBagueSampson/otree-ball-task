@@ -7,6 +7,12 @@ SESSION_CONFIGS = [
         num_demo_participants=8,
         treatment_condition = 0, # takes values: dictator task = 0, rule-following task = 1, balanced treatment of both D and RF = 2
     ),
+    dict(
+        name='LIVE_ball_task', 
+        app_sequence=['ball_task_live_pages'], 
+        num_demo_participants=8,
+        treatment_condition = 2, # takes values: dictator task = 0, rule-following task = 1, balanced treatment of both D and RF = 2
+    ),
 ]
 
 # if you set a property in SESSION_CONFIG_DEFAULTS, it will be inherited by all configs
