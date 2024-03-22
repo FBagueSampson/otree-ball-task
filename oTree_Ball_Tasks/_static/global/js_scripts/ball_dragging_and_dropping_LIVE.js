@@ -5,7 +5,7 @@
     const bucket01payoff = document.querySelectorAll('.bucket_01_payoff');
     const bucket02payoff = document.querySelectorAll('.bucket_02_payoff');
     const remainingBalls = document.getElementById('balls_remaining');
-    const totalEarnings = document.querySelectorAll('#totalEarnings');
+    const totalEarnings = document.querySelector('#totalEarnings');
 
     var bucketPayoffs_01, bucketPayoffs_02, nBallsLeft, totalPayoff;
 
@@ -17,7 +17,7 @@
             ele.innerText = makeItHumanReadable(bucketPayoffs_02); 
         }); 
         remainingBalls.innerText = nBallsLeft;
-        totalEarnings.innerText = makeItHumanReadable(totalPayoff);
+        if (totalEarnings !== null) { totalEarnings.innerText = makeItHumanReadable(totalPayoff); } // check the table entry exists before trying to fill it!
     }
 
 
@@ -157,7 +157,7 @@
         bucketPayoffs_01 = data.bucket_01_payoffs;
         bucketPayoffs_02 = data.bucket_02_payoffs; 
         nBallsLeft = data.balls_remaining;
-        totalPayoff = data.total_earnings;
+        totalPayoff = data.totalEarnings;
         set_display(bucketPayoffs_01, bucketPayoffs_02, nBallsLeft, totalPayoff);
         nBallsinBucket01 = data.balls_in_bucket01;
         nBallsinBucket02 = data.balls_in_bucket02;
@@ -206,7 +206,7 @@
         bucketPayoffs_01 = js_vars.bucket_01_payoffs;
         bucketPayoffs_02 = js_vars.bucket_02_payoffs; 
         nBallsLeft = js_vars.balls_remaining;
-        totalPayoff = js_vars.total_earnings;
+        totalPayoff = js_vars.totalEarnings;
         set_display(bucketPayoffs_01, bucketPayoffs_02, nBallsLeft, totalPayoff);
         nBallsinBucket01 = js_vars.balls_in_bucket01;
         nBallsinBucket02 = js_vars.balls_in_bucket02;
