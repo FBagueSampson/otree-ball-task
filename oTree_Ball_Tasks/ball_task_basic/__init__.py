@@ -196,14 +196,14 @@ def set_bucket_selection(player: Player, timeout_happened):
 def get_page_vars(player: Player):  ##########***************************************
     if player.participant.treatments["task"] == False:
         target_title = set_charity_name(player)
-        non_target_possessive = 'Your'
+        non_target_history_title = 'Your'
         return dict(
             target_title = target_title,
             target_possessive = target_title + '\'s',
             target_history_title = target_title.strip('The ') + '\'s',
             non_target_title = 'You',
-            non_target_possessive = 'Your',
-            non_target_history_title = non_target_possessive,
+            non_target_possessive = non_target_history_title + 's',
+            non_target_history_title = non_target_history_title,
         )
     else:
         target_title = C.COLOR_TITLE_01
