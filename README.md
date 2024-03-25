@@ -15,7 +15,7 @@ App Features:
 
 In the rule-following task, participants are told that the rule is to place the ball into the target bucket. Typical of such tasks, balls placed into the target bucket earn less than balls placed in the alternative bucket.
 
-In the dictator task, participants are told to allocate the balls between the buckets where the amount earned by balls into the "target" bucket is donated to a charity (or customize to tbe another participant or bot) and the amount earned by placing balls into the alternative bucket accrue as a payoff to the participant.
+In the dictator task, participants are told to allocate the balls between the buckets where the amount earned by balls dropped into the "target" bucket is donated to a charity (this can be customized to be another participant or bot), and the amount earned by placing balls into the alternative bucket accrue as a payoff to the participant.
 
 Ball Task Features:
 * Buckets highlight when balls are dragged over them
