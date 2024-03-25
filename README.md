@@ -33,6 +33,6 @@ Ball Task Apps are dependent on the following items not contained within the ind
 * PARTICIPANT_FIELDS and SESSION_CONFIGS settings in the settings.py file
 
 
-
+![ball-drop task set up for dictator game; includes a hard timer](https://github.com/FBagueSampson/otree-ball-task/blob/main/charity_ball_task_001.png?raw=true)
 
 
