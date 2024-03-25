@@ -5,7 +5,7 @@ The apps are designed to be used as an interface for dictator games, rule-follow
 
 In the rule-following task, participants are told that the rule is to place the ball into the target bucket. Typical of such tasks, balls placed into the target bucket earn less than balls placed in the alternative bucket.
 
-![ball-drop task set up for dictator game; includes a hard timer](https://github.com/FBagueSampson/otree-ball-task/blob/main/rule-following_ball_task_001.png?raw=true)
+![ball-drop task set up for rule-following game; no hard timer](https://github.com/FBagueSampson/otree-ball-task/blob/main/rule-following_ball_task_001.png?raw=true)
 
 In the dictator task, participants are told to allocate the balls between the buckets where the amount earned by balls dropped into the "target" bucket is donated to a charity (this can be customized to be another participant or bot), and the amount earned by placing balls into the alternative bucket accrue as a payoff to the participant.
 
